@@ -1,7 +1,6 @@
 package com.softwaremongers.SeriouslyBeta.Listeners;
 
 import com.softwaremongers.SeriouslyBeta.SeriouslyBeta;
-import net.minecraft.server.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -9,20 +8,17 @@ import org.bukkit.craftbukkit.entity.CraftPig;
 import org.bukkit.entity.*;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.Event;
-import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerListener;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.Recipe;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.scheduler.BukkitScheduler;
-import org.bukkit.util.Vector;
 
 import java.util.HashSet;
 import java.util.Set;
 
 public class SeriouslyPlayerListener extends PlayerListener {
-    private static SeriouslyBeta plugin;
+    private SeriouslyBeta plugin;
     private PluginManager pm;
     private Set<Entity> persistentEntities = new HashSet<>();
 
