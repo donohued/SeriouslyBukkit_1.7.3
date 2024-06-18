@@ -21,6 +21,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="craftbukkit_BETA_1.7.3" level="project" />
-    <orderEntry type="library" name="Citizens" level="project" />
+    <orderEntry type="library" name="Essentials" level="project" />
   </component>
 </module>

@@ -1,11 +1,10 @@
-package com.softwaremongers.SeriouslyBeta.Listeners;
+package com.softwaremongers.seriouslybukkit.listeners;
 
-import com.softwaremongers.SeriouslyBeta.SeriouslyBeta;
+import com.softwaremongers.seriouslybukkit.SeriouslyBeta;
 import org.bukkit.event.Event;
 import org.bukkit.event.vehicle.VehicleCreateEvent;
 import org.bukkit.event.vehicle.VehicleListener;
 import org.bukkit.plugin.PluginManager;
-import org.bukkit.util.Vector;
 
 public class SeriouslyVehicleListener extends VehicleListener {
     private static SeriouslyBeta plugin;
