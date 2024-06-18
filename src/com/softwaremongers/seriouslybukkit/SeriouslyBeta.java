@@ -65,7 +65,7 @@ public class SeriouslyBeta extends JavaPlugin {
         return false;
     }
 
-    public void reportPlayerEvent(Player p, StatisticManager.StatType t, int e){
+    public void reportPlayerEvent(Player p, PlayerStatistics.StatType t, int e){
         statisticManager.reportEvent(p, t, e);
     }
 

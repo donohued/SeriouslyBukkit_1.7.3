@@ -1,6 +1,7 @@
 package com.softwaremongers.seriouslybukkit.listeners;
 
 import com.softwaremongers.seriouslybukkit.SeriouslyBeta;
+import com.softwaremongers.seriouslybukkit.statistics.PlayerStatistics;
 import com.softwaremongers.seriouslybukkit.statistics.StatisticManager;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Animals;
@@ -49,12 +50,12 @@ public class SeriouslyEntityListener extends EntityListener {
         try {
             if(event.getEntity() instanceof CraftPlayer){
                 Player p = (Player) event.getEntity();
-                this.plugin.reportPlayerEvent(p, StatisticManager.StatType.PLAYER_DEATHS, 1);
+                this.plugin.reportPlayerEvent(p, PlayerStatistics.StatType.PLAYER_DEATHS, 1);
                 this.plugin.getServer().broadcastMessage(((CraftPlayer) event.getEntity()).getName() + " just fucking died.");
                 if(event.getEntity().getLastDamageCause() instanceof EntityDamageByEntityEvent){
                     if(((EntityDamageByEntityEvent) event.getEntity().getLastDamageCause()).getDamager() instanceof CraftPlayer){
                         Player pd = (Player)(((EntityDamageByEntityEvent) event.getEntity().getLastDamageCause()).getDamager());
-                        this.plugin.reportPlayerEvent(pd, StatisticManager.StatType.PLAYER_PLAYERS_KILLED, 1);
+                        this.plugin.reportPlayerEvent(pd, PlayerStatistics.StatType.PLAYER_PLAYERS_KILLED, 1);
                     }
 
                 }
@@ -62,14 +63,14 @@ public class SeriouslyEntityListener extends EntityListener {
                 if(event.getEntity().getLastDamageCause() instanceof EntityDamageByEntityEvent){
                     if(((EntityDamageByEntityEvent) event.getEntity().getLastDamageCause()).getDamager() instanceof CraftPlayer){
                         Player p = (Player)(((EntityDamageByEntityEvent) event.getEntity().getLastDamageCause()).getDamager());
-                        this.plugin.reportPlayerEvent(p, StatisticManager.StatType.PLAYER_ANIMALS_KILLED, 1);
+                        this.plugin.reportPlayerEvent(p, PlayerStatistics.StatType.PLAYER_ANIMALS_KILLED, 1);
                     }
                 }
             }else if(event.getEntity() instanceof Monster){
                 if(event.getEntity().getLastDamageCause() instanceof EntityDamageByEntityEvent){
                     if(((EntityDamageByEntityEvent) event.getEntity().getLastDamageCause()).getDamager() instanceof CraftPlayer){
                         Player p = (Player)(((EntityDamageByEntityEvent) event.getEntity().getLastDamageCause()).getDamager());
-                        this.plugin.reportPlayerEvent(p, StatisticManager.StatType.PLAYER_MOBS_KILLED, 1);
+                        this.plugin.reportPlayerEvent(p, PlayerStatistics.StatType.PLAYER_MOBS_KILLED, 1);
                     }
                 }
             }

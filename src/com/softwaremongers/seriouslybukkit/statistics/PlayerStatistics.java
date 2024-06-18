@@ -2,6 +2,7 @@ package com.softwaremongers.seriouslybukkit.statistics;
 
 import org.bukkit.event.Event;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
@@ -9,174 +10,110 @@ public class PlayerStatistics {
 
     private String playerName;
     public String getPlayerName() {
-        return playerName;
+        return this.playerName;
     }
     private UUID playerUUID;
     public UUID getPlayerUUID() {
-        return playerUUID;
+        return this.playerUUID;
     }
     private long playerFirstJoin = 0;
+    private long playerLastOnline = 0;
 
-    private long playerTimePlayed = 0;
-
-    private int playerTimesJoined = 0;
-    private int playerTimesKicked = 0;
-    private int playerTimesQuit = 0;
-    private int playerChatMessages = 0;
-
-    private int playerTimesEnterBed = 0;
-    private int playerTimesLeftBed = 0;
-    private int playerBucketFilled = 0;
-    private int playerBucketEmptied = 0;
-    private int playerFishCaught = 0;
-    private int playerLinesCast = 0;
-    private int playerEggsThrown = 0;
-    private int playerPortalCrossings = 0;
-    private int playerTimesTeleported = 0;
-
-    private int playerBlocksPlaced = 0;
-    private int playerBlocksDestroyed = 0;
-    private int playerItemsDropped = 0;
-    private int playerItemsPickedUp = 0;
-
-    private int playerMobsKilled = 0;
-    private int playerAnimalsKilled = 0;
-    private int playerPlayersKilled = 0;
-    private int playerDeaths = 0;
+    private Map<StatType, Integer> playerStats;
 
     public PlayerStatistics(String playerName, UUID playerUUID) {
         this.playerName = playerName;
         this.playerUUID = playerUUID;
         this.playerFirstJoin = System.currentTimeMillis();
-    }
-
-    public void addPlayTime(long playtime) {
-        playerTimePlayed += playtime;
-    }
-
-    public void updateStat(StatisticManager.StatType t, int val) {
-        switch (t) {
-            case PLAYER_TIMES_JOINED:
-                playerTimesJoined += val;
-                break;
-            case PLAYER_TIMES_KICKED:
-                playerTimesKicked += val;
-                break;
-            case PLAYER_TIMES_QUIT:
-                playerTimesQuit += val;
-                break;
-            case PLAYER_CHAT_MESSAGES:
-                playerChatMessages += val;
-                break;
-            case PLAYER_TIMES_ENTER_BED:
-                playerTimesEnterBed += val;
-                break;
-            case PLAYER_TIMES_LEFT_BED:
-                playerTimesLeftBed += val;
-                break;
-            case PLAYER_BUCKET_FILLED:
-                playerBucketFilled += val;
-                break;
-            case PLAYER_BUCKET_EMPTIED:
-                playerBucketEmptied += val;
-                break;
-            case PLAYER_FISH_CAUGHT:
-                playerFishCaught += val;
-                break;
-            case PLAYER_LINES_CAST:
-                playerLinesCast += val;
-                break;
-            case PLAYER_EGGS_THROWN:
-                playerEggsThrown += val;
-                break;
-            case PLAYER_PORTAL_CROSSINGS:
-                playerPortalCrossings += val;
-                break;
-            case PLAYER_TIMES_TELEPORTED:
-                playerTimesTeleported += val;
-                break;
-            case PLAYER_BLOCKS_PLACED:
-                playerBlocksPlaced += val;
-                break;
-            case PLAYER_BLOCKS_DESTROYED:
-                playerBlocksDestroyed += val;
-                break;
-            case PLAYER_ITEMS_DROPPED:
-                playerItemsDropped += val;
-                break;
-            case PLAYER_ITEMS_PICKED_UP:
-                playerItemsPickedUp += val;
-                break;
-            case PLAYER_MOBS_KILLED:
-                playerMobsKilled += val;
-                break;
-            case PLAYER_ANIMALS_KILLED:
-                playerAnimalsKilled += val;
-                break;
-            case PLAYER_PLAYERS_KILLED:
-                playerPlayersKilled += val;
-                break;
-            case PLAYER_DEATHS:
-                playerDeaths += val;
-                break;
-            default:
-                break;
+        this.playerLastOnline = System.currentTimeMillis();
+        this.playerStats = new HashMap<>();
+        for (StatType type : StatType.values()) {
+            this.playerStats.put(type, 0);
         }
     }
 
+    public void addPlayTime(long playtime) {
+        this.playerStats.put(StatType.PLAYER_TIME_PLAYED, this.playerStats.get(StatType.PLAYER_TIME_PLAYED) + (int) playtime);
+        this.playerLastOnline = System.currentTimeMillis();
+    }
+
+    public void updateStat(PlayerStatistics.StatType t, int val) {
+        this.playerStats.put(t, this.playerStats.get(t) + val);
+    }
+
     public String toYaml(){
-        return "playerName: " + playerName + "\n" +
-                "playerUUID: " + playerUUID + "\n" +
-                "playerFirstJoin: " + playerFirstJoin + "\n" +
-                "playerTimePlayed: " + playerTimePlayed + "\n" +
-                "playerTimesJoined: " + playerTimesJoined + "\n" +
-                "playerTimesKicked: " + playerTimesKicked + "\n" +
-                "playerTimesQuit: " + playerTimesQuit + "\n" +
-                "playerChatMessages: " + playerChatMessages + "\n" +
-                "playerTimesEnterBed: " + playerTimesEnterBed + "\n" +
-                "playerTimesLeftBed: " + playerTimesLeftBed + "\n" +
-                "playerBucketFilled: " + playerBucketFilled + "\n" +
-                "playerBucketEmptied: " + playerBucketEmptied + "\n" +
-                "playerFishCaught: " + playerFishCaught + "\n" +
-                "playerLinesCast: " + playerLinesCast + "\n" +
-                "playerEggsThrown: " + playerEggsThrown + "\n" +
-                "playerPortalCrossings: " + playerPortalCrossings + "\n" +
-                "playerTimesTeleported: " + playerTimesTeleported + "\n" +
-                "playerBlocksPlaced: " + playerBlocksPlaced + "\n" +
-                "playerBlocksDestroyed: " + playerBlocksDestroyed + "\n" +
-                "playerItemsDropped: " + playerItemsDropped + "\n" +
-                "playerItemsPickedUp: " + playerItemsPickedUp + "\n" +
-                "playerMobsKilled: " + playerMobsKilled + "\n" +
-                "playerAnimalsKilled: " + playerAnimalsKilled + "\n" +
-                "playerPlayersKilled: " + playerPlayersKilled + "\n" +
-                "playerDeaths: " + playerDeaths + "\n";
+        StringBuilder yaml = new StringBuilder(
+                "playerName: " + this.playerName + "\n" +
+                "playerUUID: " + this.playerUUID + "\n" +
+                "playerFirstJoin: " + this.playerFirstJoin + "\n" +
+                "playerLastOnline: " + this.playerLastOnline + "\n"
+        );
+        for (StatType type : StatType.values()) {
+            yaml.append(type.name()).append(": ").append(this.playerStats.get(type)).append("\n");
+        }
+        return yaml.toString();
     }
 
     public void initFromFile(Map<String, String> data){
         this.playerName = data.get("playerName");
         this.playerUUID = UUID.fromString(data.get("playerUUID"));
         this.playerFirstJoin = Long.parseLong(data.get("playerFirstJoin"));
-        this.playerTimePlayed = Long.parseLong(data.get("playerTimePlayed"));
-        this.playerTimesJoined = Integer.parseInt(data.get("playerTimesJoined"));
-        this.playerTimesKicked = Integer.parseInt(data.get("playerTimesKicked"));
-        this.playerTimesQuit = Integer.parseInt(data.get("playerTimesQuit"));
-        this.playerChatMessages = Integer.parseInt(data.get("playerChatMessages"));
-        this.playerTimesEnterBed = Integer.parseInt(data.get("playerTimesEnterBed"));
-        this.playerTimesLeftBed = Integer.parseInt(data.get("playerTimesLeftBed"));
-        this.playerBucketFilled = Integer.parseInt(data.get("playerBucketFilled"));
-        this.playerBucketEmptied = Integer.parseInt(data.get("playerBucketEmptied"));
-        this.playerFishCaught = Integer.parseInt(data.get("playerFishCaught"));
-        this.playerLinesCast = Integer.parseInt(data.get("playerLinesCast"));
-        this.playerEggsThrown = Integer.parseInt(data.get("playerEggsThrown"));
-        this.playerPortalCrossings = Integer.parseInt(data.get("playerPortalCrossings"));
-        this.playerTimesTeleported = Integer.parseInt(data.get("playerTimesTeleported"));
-        this.playerBlocksPlaced = Integer.parseInt(data.get("playerBlocksPlaced"));
-        this.playerBlocksDestroyed = Integer.parseInt(data.get("playerBlocksDestroyed"));
-        this.playerItemsDropped = Integer.parseInt(data.get("playerItemsDropped"));
-        this.playerItemsPickedUp = Integer.parseInt(data.get("playerItemsPickedUp"));
-        this.playerMobsKilled = Integer.parseInt(data.get("playerMobsKilled"));
-        this.playerAnimalsKilled = Integer.parseInt(data.get("playerAnimalsKilled"));
-        this.playerPlayersKilled = Integer.parseInt(data.get("playerPlayersKilled"));
-        this.playerDeaths = Integer.parseInt(data.get("playerDeaths"));
+        for (StatType type : StatType.values()) {
+            this.playerStats.put(type, Integer.parseInt(data.get(type.name())));
+        }
+    }
+
+    public enum StatType {
+        PLAYER_TIME_PLAYED("Time Played"),
+        PLAYER_TIMES_JOINED("Times Joined"),
+        PLAYER_TIMES_KICKED("Times Kicked"),
+        PLAYER_TIMES_QUIT("Times Quit"),
+        PLAYER_CHAT_MESSAGES("Sent Chat Messages"),
+        PLAYER_TIMES_ENTER_BED("Times Entered Bed"),
+        PLAYER_TIMES_LEFT_BED("Times Left Bed"),
+        PLAYER_BUCKET_FILLED("Times Filled Bucket"),
+        PLAYER_BUCKET_EMPTIED("Times Emptied Bucket"),
+        PLAYER_FISH_CAUGHT("Fish Caught"),
+        PLAYER_LINES_CAST("Fishing Lines Cast"),
+        PLAYER_EGGS_THROWN("Eggs Thrown"),
+        PLAYER_PORTAL_CROSSINGS("Portal Crossings"),
+        PLAYER_TIMES_TELEPORTED("Times Teleported"),
+        PLAYER_BLOCKS_PLACED("Blocks Placed"),
+        PLAYER_BLOCKS_DESTROYED("Blocks Destroyed"),
+        PLAYER_ITEMS_DROPPED("Items Dropped"),
+        PLAYER_ITEMS_PICKED_UP("Items Picked Up"),
+        PLAYER_MOBS_KILLED("Monsters Killed"),
+        PLAYER_ANIMALS_KILLED("Animals Killed"),
+        PLAYER_PLAYERS_KILLED("Players Killed"),
+        PLAYER_DEATHS("Deaths");
+
+        /*
+        Stats to add
+        PLAYER_ITEMS_CRAFTED("Items Crafted"),
+        PLAYER_ITEMS_SMELTED("Items Smelted"),
+
+        PLAYER_DIAMONDS_MINED("Diamonds Mined"),
+        PLAYER_REDSTONE_MINED("Redstone Mined"),
+        PLAYER_LAPIS_MINED("Lapis Mined"),
+        PLAYER_GOLD_MINED("Gold Mined"),
+        PLAYER_IRON_MINED("Iron Mined"),
+        PLAYER_COAL_MINED("Coal Mined"),
+
+        PLAYER_WOLVES_TAMED("Wolves Tamed"),
+        PLAYER_DUNGEONS_FOUND("Dungeons Found"),
+        PLAYER_CAKE_EATEN("Cakes Eaten"),
+        PLAYER_SNOWBALLS_THROWN("Snowballs Thrown"),
+        PLAYER_ARROW_SHOTS("Arrow Shots"),
+
+        PLAYER_BIGGEST_FALL("Biggest Fall"),
+        PLAYER_PIGS_RIDDEN("Pigs Ridden"),
+        PLAYER_CHICKENS_HATCHED("Chickens Hatched"),
+
+        */
+
+        public final String label;
+        private StatType(String label) {
+            this.label = label;
+        }
     }
 }

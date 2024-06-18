@@ -1,6 +1,7 @@
 package com.softwaremongers.seriouslybukkit.listeners;
 
 import com.softwaremongers.seriouslybukkit.SeriouslyBeta;
+import com.softwaremongers.seriouslybukkit.statistics.PlayerStatistics;
 import com.softwaremongers.seriouslybukkit.statistics.StatisticManager;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -47,7 +48,7 @@ public class SeriouslyPlayerListener extends PlayerListener {
     @Override
     public void onPlayerLogin(PlayerLoginEvent event){
         this.plugin.statisticManager.playerJoining(event.getPlayer());
-        this.plugin.reportPlayerEvent(event.getPlayer(), StatisticManager.StatType.PLAYER_TIMES_JOINED, 1);
+        this.plugin.reportPlayerEvent(event.getPlayer(), PlayerStatistics.StatType.PLAYER_TIMES_JOINED, 1);
     }
     @Override
     public void onPlayerJoin(PlayerJoinEvent event){
@@ -56,60 +57,60 @@ public class SeriouslyPlayerListener extends PlayerListener {
     }
     @Override
     public void onPlayerKick(PlayerKickEvent event){
-        this.plugin.reportPlayerEvent(event.getPlayer(), StatisticManager.StatType.PLAYER_TIMES_KICKED, 1);
+        this.plugin.reportPlayerEvent(event.getPlayer(), PlayerStatistics.StatType.PLAYER_TIMES_KICKED, 1);
         this.plugin.statisticManager.playerLeaving(event.getPlayer());
     }
     @Override
     public void onPlayerQuit(PlayerQuitEvent event){
-        this.plugin.reportPlayerEvent(event.getPlayer(), StatisticManager.StatType.PLAYER_TIMES_QUIT, 1);
+        this.plugin.reportPlayerEvent(event.getPlayer(), PlayerStatistics.StatType.PLAYER_TIMES_QUIT, 1);
         this.plugin.statisticManager.playerLeaving(event.getPlayer());
     }
     @Override
     public void onPlayerChat(PlayerChatEvent event){
-        this.plugin.reportPlayerEvent(event.getPlayer(), StatisticManager.StatType.PLAYER_CHAT_MESSAGES, 1);
+        this.plugin.reportPlayerEvent(event.getPlayer(), PlayerStatistics.StatType.PLAYER_CHAT_MESSAGES, 1);
     }
     @Override
     public void onPlayerBedEnter(PlayerBedEnterEvent event){
-        this.plugin.reportPlayerEvent(event.getPlayer(), StatisticManager.StatType.PLAYER_TIMES_ENTER_BED, 1);
+        this.plugin.reportPlayerEvent(event.getPlayer(), PlayerStatistics.StatType.PLAYER_TIMES_ENTER_BED, 1);
     }
     @Override
     public void onPlayerBedLeave(PlayerBedLeaveEvent event){
-        this.plugin.reportPlayerEvent(event.getPlayer(), StatisticManager.StatType.PLAYER_TIMES_LEFT_BED, 1);
+        this.plugin.reportPlayerEvent(event.getPlayer(), PlayerStatistics.StatType.PLAYER_TIMES_LEFT_BED, 1);
     }
     @Override
     public void onPlayerBucketFill(PlayerBucketFillEvent event){
-        this.plugin.reportPlayerEvent(event.getPlayer(), StatisticManager.StatType.PLAYER_BUCKET_FILLED, 1);
+        this.plugin.reportPlayerEvent(event.getPlayer(), PlayerStatistics.StatType.PLAYER_BUCKET_FILLED, 1);
     }
     @Override
     public void onPlayerBucketEmpty(PlayerBucketEmptyEvent event){
-        this.plugin.reportPlayerEvent(event.getPlayer(), StatisticManager.StatType.PLAYER_BUCKET_EMPTIED, 1);
+        this.plugin.reportPlayerEvent(event.getPlayer(), PlayerStatistics.StatType.PLAYER_BUCKET_EMPTIED, 1);
     }
     @Override
     public void onPlayerFish(PlayerFishEvent event){
         if(event.getState().equals(PlayerFishEvent.State.CAUGHT_FISH)){
-            this.plugin.reportPlayerEvent(event.getPlayer(), StatisticManager.StatType.PLAYER_FISH_CAUGHT, 1);
+            this.plugin.reportPlayerEvent(event.getPlayer(), PlayerStatistics.StatType.PLAYER_FISH_CAUGHT, 1);
         }
-        this.plugin.reportPlayerEvent(event.getPlayer(), StatisticManager.StatType.PLAYER_LINES_CAST, 1);
+        this.plugin.reportPlayerEvent(event.getPlayer(), PlayerStatistics.StatType.PLAYER_LINES_CAST, 1);
     }
     @Override
     public void onPlayerEggThrow(PlayerEggThrowEvent event){
-        this.plugin.reportPlayerEvent(event.getPlayer(), StatisticManager.StatType.PLAYER_EGGS_THROWN, 1);
+        this.plugin.reportPlayerEvent(event.getPlayer(), PlayerStatistics.StatType.PLAYER_EGGS_THROWN, 1);
     }
     @Override
     public void onPlayerPortal(PlayerPortalEvent event){
-        this.plugin.reportPlayerEvent(event.getPlayer(), StatisticManager.StatType.PLAYER_PORTAL_CROSSINGS, 1);
+        this.plugin.reportPlayerEvent(event.getPlayer(), PlayerStatistics.StatType.PLAYER_PORTAL_CROSSINGS, 1);
     }
     @Override
     public void onPlayerTeleport(PlayerTeleportEvent event){
-        this.plugin.reportPlayerEvent(event.getPlayer(), StatisticManager.StatType.PLAYER_TIMES_TELEPORTED, 1);
+        this.plugin.reportPlayerEvent(event.getPlayer(), PlayerStatistics.StatType.PLAYER_TIMES_TELEPORTED, 1);
     }
     @Override
     public void onPlayerDropItem(PlayerDropItemEvent event){
-        this.plugin.reportPlayerEvent(event.getPlayer(), StatisticManager.StatType.PLAYER_ITEMS_DROPPED, 1);
+        this.plugin.reportPlayerEvent(event.getPlayer(), PlayerStatistics.StatType.PLAYER_ITEMS_DROPPED, 1);
     }
     @Override
     public void onPlayerPickupItem(PlayerPickupItemEvent event){
-        this.plugin.reportPlayerEvent(event.getPlayer(), StatisticManager.StatType.PLAYER_ITEMS_PICKED_UP, 1);
+        this.plugin.reportPlayerEvent(event.getPlayer(), PlayerStatistics.StatType.PLAYER_ITEMS_PICKED_UP, 1);
     }
 
 

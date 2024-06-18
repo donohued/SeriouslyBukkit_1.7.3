@@ -1,6 +1,7 @@
 package com.softwaremongers.seriouslybukkit.listeners;
 
 import com.softwaremongers.seriouslybukkit.SeriouslyBeta;
+import com.softwaremongers.seriouslybukkit.statistics.PlayerStatistics;
 import com.softwaremongers.seriouslybukkit.statistics.StatisticManager;
 import org.bukkit.event.Event;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -11,6 +12,7 @@ import org.bukkit.plugin.PluginManager;
 public class SeriouslyBlockListener extends BlockListener {
     private static SeriouslyBeta plugin;
     private PluginManager pm;
+
     public SeriouslyBlockListener(SeriouslyBeta instance){
         this.plugin = instance;
     }
@@ -23,11 +25,11 @@ public class SeriouslyBlockListener extends BlockListener {
 
     @Override
     public void onBlockBreak(BlockBreakEvent event){
-        this.plugin.statisticManager.reportEvent(event.getPlayer(), StatisticManager.StatType.PLAYER_BLOCKS_DESTROYED, 1);
+        this.plugin.statisticManager.reportEvent(event.getPlayer(), PlayerStatistics.StatType.PLAYER_BLOCKS_DESTROYED, 1);
     }
 
     @Override
     public void onBlockPlace(BlockPlaceEvent event){
-        this.plugin.statisticManager.reportEvent(event.getPlayer(), StatisticManager.StatType.PLAYER_BLOCKS_PLACED, 1);
+        this.plugin.statisticManager.reportEvent(event.getPlayer(), PlayerStatistics.StatType.PLAYER_BLOCKS_PLACED, 1);
     }
 }

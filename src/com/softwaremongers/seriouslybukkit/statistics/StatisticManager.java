@@ -20,7 +20,7 @@ import org.bukkit.event.Event.Type;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.scheduler.BukkitScheduler;
 
-import static com.softwaremongers.seriouslybukkit.statistics.StatisticManager.StatType.PLAYER_TIMES_JOINED;
+import static com.softwaremongers.seriouslybukkit.statistics.PlayerStatistics.StatType.*;
 import static org.bukkit.event.Event.Type.*;
 
 public class StatisticManager {
@@ -44,7 +44,7 @@ public class StatisticManager {
         }, 60L, 12000L);
     }
 
-    public void reportEvent(Player player, StatisticManager.StatType t, int val) {
+    public void reportEvent(Player player, PlayerStatistics.StatType t, int val) {
 
         if(t.equals(PLAYER_TIMES_JOINED) && !playerData.containsKey(player.getName())){
             playerJoining(player);
@@ -96,12 +96,10 @@ public class StatisticManager {
             }
         }else{
             this.plugin.log("No player data found, creating new file");
-            //No file found, creating new file
             PlayerStatistics ps = new PlayerStatistics(playerName, playerUUID);
             writePlayerData(ps);
             return ps;
         }
-
         return null;
     }
 
@@ -143,31 +141,6 @@ public class StatisticManager {
             }
             return result;
         }
-    }
-
-    public static enum StatType {
-        PLAYER_TIME_PLAYED,
-        PLAYER_TIMES_JOINED,
-        PLAYER_TIMES_KICKED,
-        PLAYER_TIMES_QUIT,
-        PLAYER_CHAT_MESSAGES,
-        PLAYER_TIMES_ENTER_BED,
-        PLAYER_TIMES_LEFT_BED,
-        PLAYER_BUCKET_FILLED,
-        PLAYER_BUCKET_EMPTIED,
-        PLAYER_FISH_CAUGHT,
-        PLAYER_LINES_CAST,
-        PLAYER_EGGS_THROWN,
-        PLAYER_PORTAL_CROSSINGS,
-        PLAYER_TIMES_TELEPORTED,
-        PLAYER_BLOCKS_PLACED,
-        PLAYER_BLOCKS_DESTROYED,
-        PLAYER_ITEMS_DROPPED,
-        PLAYER_ITEMS_PICKED_UP,
-        PLAYER_MOBS_KILLED,
-        PLAYER_ANIMALS_KILLED,
-        PLAYER_PLAYERS_KILLED,
-        PLAYER_DEATHS
     }
 }
 
