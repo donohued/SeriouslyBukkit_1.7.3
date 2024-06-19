@@ -1,5 +1,5 @@
 <component name="ArtifactManager">
-  <artifact type="jar" name="SeriouslyBeta:jar">
+  <artifact type="jar" name="SeriouslyBeta.jar">
     <output-path>$PROJECT_DIR$/out/artifacts/SeriouslyBeta_jar</output-path>
     <root id="archive" name="SeriouslyBeta.jar">
       <element id="module-output" name="SeriouslyBeta" />

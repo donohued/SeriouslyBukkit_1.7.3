@@ -1,7 +1,5 @@
 package com.softwaremongers.seriouslybukkit.statistics;
 
-import org.bukkit.event.Event;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -17,7 +15,13 @@ public class PlayerStatistics {
         return this.playerUUID;
     }
     private long playerFirstJoin = 0;
+    public long getPlayerFirstJoin() {
+        return this.playerFirstJoin;
+    }
     private long playerLastOnline = 0;
+    public long getPlayerLastOnline() {
+        return this.playerLastOnline;
+    }
 
     private Map<StatType, Integer> playerStats;
 
@@ -69,6 +73,7 @@ public class PlayerStatistics {
         PLAYER_TIMES_KICKED("Times Kicked"),
         PLAYER_TIMES_QUIT("Times Quit"),
         PLAYER_CHAT_MESSAGES("Sent Chat Messages"),
+
         PLAYER_TIMES_ENTER_BED("Times Entered Bed"),
         PLAYER_TIMES_LEFT_BED("Times Left Bed"),
         PLAYER_BUCKET_FILLED("Times Filled Bucket"),
@@ -78,10 +83,12 @@ public class PlayerStatistics {
         PLAYER_EGGS_THROWN("Eggs Thrown"),
         PLAYER_PORTAL_CROSSINGS("Portal Crossings"),
         PLAYER_TIMES_TELEPORTED("Times Teleported"),
+
         PLAYER_BLOCKS_PLACED("Blocks Placed"),
         PLAYER_BLOCKS_DESTROYED("Blocks Destroyed"),
         PLAYER_ITEMS_DROPPED("Items Dropped"),
         PLAYER_ITEMS_PICKED_UP("Items Picked Up"),
+
         PLAYER_MOBS_KILLED("Monsters Killed"),
         PLAYER_ANIMALS_KILLED("Animals Killed"),
         PLAYER_PLAYERS_KILLED("Players Killed"),

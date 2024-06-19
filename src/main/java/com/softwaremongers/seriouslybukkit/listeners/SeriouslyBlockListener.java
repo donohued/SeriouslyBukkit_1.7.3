@@ -2,7 +2,6 @@ package com.softwaremongers.seriouslybukkit.listeners;
 
 import com.softwaremongers.seriouslybukkit.SeriouslyBeta;
 import com.softwaremongers.seriouslybukkit.statistics.PlayerStatistics;
-import com.softwaremongers.seriouslybukkit.statistics.StatisticManager;
 import org.bukkit.event.Event;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockListener;

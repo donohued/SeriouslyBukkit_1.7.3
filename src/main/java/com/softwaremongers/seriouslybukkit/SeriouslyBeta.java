@@ -6,13 +6,12 @@ import com.softwaremongers.seriouslybukkit.listeners.SeriouslyPlayerListener;
 import com.softwaremongers.seriouslybukkit.listeners.SeriouslyVehicleListener;
 import com.softwaremongers.seriouslybukkit.statistics.PlayerStatistics;
 import com.softwaremongers.seriouslybukkit.statistics.StatisticManager;
+import com.softwaremongers.seriouslybukkit.web.WebManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitScheduler;
 
 import java.util.logging.Logger;
 
@@ -25,14 +24,16 @@ public class SeriouslyBeta extends JavaPlugin {
     private final SeriouslyVehicleListener vehicleListener = new SeriouslyVehicleListener(this);
 
     public final StatisticManager statisticManager = new StatisticManager(this);
+    private final WebManager webManager = new WebManager(this);
 
     private final Logger logger = Logger.getLogger("Minecraft");
 
     @Override
     public void onDisable() {
-        statisticManager.saveAllUsersToFile();
-        this.logger.info("SeriouslyBeta Disabled."
-        );
+        this.logger.info("SeriouslyBeta starting shutdown.");
+        this.statisticManager.saveAllUsersToFile();
+        this.webManager.getWebServer().stop();
+        this.logger.info("SeriouslyBeta Disabled.");
     }
 
     @Override
@@ -45,10 +46,14 @@ public class SeriouslyBeta extends JavaPlugin {
         this.logger.info(pdFile.getName() + " version: " + pdFile.getVersion() + " is enabled.");
 
         this.statisticManager.init();
+        this.webManager.getWebServer().start();
     }
 
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
         if (commandLabel.equalsIgnoreCase("sb")){
+            if(args.length == 0){
+                return false;
+            }
             if(args[0].equalsIgnoreCase("r") || args[0].equalsIgnoreCase("reload")){
                 this.reloadPlugin();
                 return true;
@@ -82,7 +87,7 @@ public class SeriouslyBeta extends JavaPlugin {
     TODO:
     - Make bookshelves drop themselves as an item
     - Make Saddled pigs live forever!!
-    - Stat Tracker
+    - Stat Tracker (SEE PLAYERSTATISTICS.JAVA)
     - RESTful backend, or webserver dynmap style
     */
 

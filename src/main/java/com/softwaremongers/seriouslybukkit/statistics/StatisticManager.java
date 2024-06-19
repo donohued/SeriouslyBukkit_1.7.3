@@ -1,11 +1,12 @@
 package com.softwaremongers.seriouslybukkit.statistics;
 
 import com.softwaremongers.seriouslybukkit.SeriouslyBeta;
+import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitScheduler;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -13,15 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
-import org.bukkit.event.Event.Type;
-import org.bukkit.event.player.PlayerLoginEvent;
-import org.bukkit.scheduler.BukkitScheduler;
-
-import static com.softwaremongers.seriouslybukkit.statistics.PlayerStatistics.StatType.*;
-import static org.bukkit.event.Event.Type.*;
+import static com.softwaremongers.seriouslybukkit.statistics.PlayerStatistics.StatType.PLAYER_TIMES_JOINED;
 
 public class StatisticManager {
     private SeriouslyBeta plugin;
@@ -81,6 +74,9 @@ public class StatisticManager {
     }
 
     private PlayerStatistics getPlayerData(String playerName, UUID playerUUID){
+        if(playerData.containsKey(playerName)){
+            return playerData.get(playerName);
+        }
         Path filePath = Paths.get(this.plugin.getDataFolder() +"/"+ playerName + ".yml");
         if(Files.exists(filePath)){
             //Player data found, reading file
