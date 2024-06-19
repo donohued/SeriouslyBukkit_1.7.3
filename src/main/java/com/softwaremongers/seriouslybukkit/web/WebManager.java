@@ -17,6 +17,7 @@ public class WebManager {
 
         // Add endpoints.
         //this.webServer.addEndpoint("/stats", new PluginServlet());
-        this.webServer.addEndpoint("/stats/*", new PluginServlet());
+        this.webServer.addEndpoint("/stats/*", new PluginServlet(instance));
     }
+
 }

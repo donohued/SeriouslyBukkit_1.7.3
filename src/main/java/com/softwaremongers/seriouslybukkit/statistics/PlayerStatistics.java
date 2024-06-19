@@ -1,5 +1,7 @@
 package com.softwaremongers.seriouslybukkit.statistics;
 
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -58,12 +60,24 @@ public class PlayerStatistics {
         return yaml.toString();
     }
 
-    public void initFromFile(Map<String, String> data){
-        this.playerName = data.get("playerName");
-        this.playerUUID = UUID.fromString(data.get("playerUUID"));
-        this.playerFirstJoin = Long.parseLong(data.get("playerFirstJoin"));
+    public JSONObject toJson(){
+        JSONObject json = new JSONObject();
+        json.put("playerName", this.playerName);
+        json.put("playerUUID", this.playerUUID.toString());
+        json.put("playerFirstJoin", this.playerFirstJoin);
+        json.put("playerLastOnline", this.playerLastOnline);
         for (StatType type : StatType.values()) {
-            this.playerStats.put(type, Integer.parseInt(data.get(type.name())));
+            json.put(type.name(), this.playerStats.get(type));
+        }
+        return json;
+    }
+
+    public void initFromFile(JSONObject data){
+        this.playerName = data.getString("playerName");
+        this.playerUUID = UUID.fromString(data.getString("playerUUID"));
+        this.playerFirstJoin = Long.getLong("playerFirstJoin");
+        for (StatType type : StatType.values()) {
+            this.playerStats.put(type, data.getInt(type.name()));
         }
     }
 

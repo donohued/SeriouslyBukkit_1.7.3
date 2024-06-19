@@ -3,6 +3,7 @@ package com.softwaremongers.seriouslybukkit.statistics;
 import com.softwaremongers.seriouslybukkit.SeriouslyBeta;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitScheduler;
+import org.json.JSONObject;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -73,17 +74,40 @@ public class StatisticManager {
         joinTimes.remove(data.getPlayerName());
     }
 
-    private PlayerStatistics getPlayerData(String playerName, UUID playerUUID){
+    public JSONObject getPublicPlayerData(String playerName){
+        this.plugin.log(playerData.toString());
         if(playerData.containsKey(playerName)){
-            return playerData.get(playerName);
+            return playerData.get(playerName).toJson();
+        }else {
+            Path filePath = Paths.get(this.plugin.getDataFolder() +"/"+ playerName + ".json");
+            if(Files.exists(filePath)){
+                this.plugin.log("Player data found, reading file");
+                try {
+                    //String yaml = Files.readString(filePath);
+                    //Map<String, String> data = SimpleYamlParser.parseYaml(yaml);
+                    String json = Files.readString(filePath);
+                    JSONObject data = new JSONObject(json);
+                    PlayerStatistics ps = new PlayerStatistics(playerName, null);
+                    ps.initFromFile(data);
+                    return ps.toJson();
+                }catch (IOException e){
+                    this.plugin.log(e.toString());
+                }
+            }
         }
-        Path filePath = Paths.get(this.plugin.getDataFolder() +"/"+ playerName + ".yml");
+        return new JSONObject("err", "No data found for player: " + playerName);
+    }
+
+    private PlayerStatistics getPlayerData(String playerName, UUID playerUUID){
+        //Path filePath = Paths.get(this.plugin.getDataFolder() +"/"+ playerName + ".yml");
+        Path filePath = Paths.get(this.plugin.getDataFolder() +"/"+ playerName + ".json");
         if(Files.exists(filePath)){
-            //Player data found, reading file
             this.plugin.log("Player data found, reading file");
             try {
-                String yaml = Files.readString(filePath);
-                Map<String, String> data = SimpleYamlParser.parseYaml(yaml);
+                //String yaml = Files.readString(filePath);
+                // Map<String, String> data = SimpleYamlParser.parseYaml(yaml);
+                String json = Files.readString(filePath);
+                JSONObject data = new JSONObject(json);
                 PlayerStatistics ps = new PlayerStatistics(playerName, playerUUID);
                 ps.initFromFile(data);
                 return ps;
@@ -101,8 +125,9 @@ public class StatisticManager {
 
     public void writePlayerData(PlayerStatistics playerStatistics) {
         Path dirPath = Paths.get(this.plugin.getDataFolder() +"/");
-        Path filePath = Paths.get(this.plugin.getDataFolder() +"/"+ playerStatistics.getPlayerName() + ".yml");
-        String yaml = playerStatistics.toYaml();
+        Path filePath = Paths.get(this.plugin.getDataFolder() +"/"+ playerStatistics.getPlayerName() + ".json");
+        //String yaml = playerStatistics.toYaml();
+        String json = playerStatistics.toJson().toString();
 
         try {
             if (!Files.exists(dirPath)) {
@@ -113,7 +138,7 @@ public class StatisticManager {
         }
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath.toString()))) {
-            writer.write(yaml);
+            writer.write(json);
             this.plugin.log("Player data written to file.");
         } catch (IOException e) {
             this.plugin.log(e.toString());
