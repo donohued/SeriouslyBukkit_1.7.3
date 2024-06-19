@@ -47,6 +47,15 @@ public class PlayerStatistics {
         this.playerStats.put(t, this.playerStats.get(t) + val);
     }
 
+    public void initFromFile(Map<String, String> data){
+        this.playerName = data.get("playerName");
+        this.playerUUID = UUID.fromString(data.get("playerUUID"));
+        this.playerFirstJoin = Long.parseLong(data.get("playerFirstJoin"));
+        for (StatType type : StatType.values()) {
+            this.playerStats.put(type, Integer.parseInt(data.get(type.name())));
+        }
+    }
+
     public String toYaml(){
         StringBuilder yaml = new StringBuilder(
                 "playerName: " + this.playerName + "\n" +
@@ -62,23 +71,19 @@ public class PlayerStatistics {
 
     public JSONObject toJson(){
         JSONObject json = new JSONObject();
-        json.put("playerName", this.playerName);
-        json.put("playerUUID", this.playerUUID.toString());
-        json.put("playerFirstJoin", this.playerFirstJoin);
-        json.put("playerLastOnline", this.playerLastOnline);
-        for (StatType type : StatType.values()) {
-            json.put(type.name(), this.playerStats.get(type));
-        }
-        return json;
-    }
+        json.put("playerInfo", new JSONObject()
+                .put("playerName", this.playerName)
+                .put("playerUUID", this.playerUUID.toString())
+                .put("playerFirstJoin", this.playerFirstJoin)
+                .put("playerLastOnline", this.playerLastOnline));
 
-    public void initFromFile(JSONObject data){
-        this.playerName = data.getString("playerName");
-        this.playerUUID = UUID.fromString(data.getString("playerUUID"));
-        this.playerFirstJoin = Long.getLong("playerFirstJoin");
+        JSONObject stats = new JSONObject();
         for (StatType type : StatType.values()) {
-            this.playerStats.put(type, data.getInt(type.name()));
+            stats.put(type.name(), this.playerStats.get(type));
         }
+        json.put("playerStats", stats);
+
+        return json;
     }
 
     public enum StatType {

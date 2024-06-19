@@ -79,14 +79,12 @@ public class StatisticManager {
         if(playerData.containsKey(playerName)){
             return playerData.get(playerName).toJson();
         }else {
-            Path filePath = Paths.get(this.plugin.getDataFolder() +"/"+ playerName + ".json");
+            Path filePath = Paths.get(this.plugin.getDataFolder() +"/"+ playerName + ".yml");
             if(Files.exists(filePath)){
                 this.plugin.log("Player data found, reading file");
                 try {
-                    //String yaml = Files.readString(filePath);
-                    //Map<String, String> data = SimpleYamlParser.parseYaml(yaml);
-                    String json = Files.readString(filePath);
-                    JSONObject data = new JSONObject(json);
+                    String yaml = Files.readString(filePath);
+                    Map<String, String> data = SimpleYamlParser.parseYaml(yaml);
                     PlayerStatistics ps = new PlayerStatistics(playerName, null);
                     ps.initFromFile(data);
                     return ps.toJson();
@@ -99,15 +97,12 @@ public class StatisticManager {
     }
 
     private PlayerStatistics getPlayerData(String playerName, UUID playerUUID){
-        //Path filePath = Paths.get(this.plugin.getDataFolder() +"/"+ playerName + ".yml");
-        Path filePath = Paths.get(this.plugin.getDataFolder() +"/"+ playerName + ".json");
+        Path filePath = Paths.get(this.plugin.getDataFolder() +"/"+ playerName + ".yml");
         if(Files.exists(filePath)){
             this.plugin.log("Player data found, reading file");
             try {
-                //String yaml = Files.readString(filePath);
-                // Map<String, String> data = SimpleYamlParser.parseYaml(yaml);
-                String json = Files.readString(filePath);
-                JSONObject data = new JSONObject(json);
+                String yaml = Files.readString(filePath);
+                Map<String, String> data = SimpleYamlParser.parseYaml(yaml);
                 PlayerStatistics ps = new PlayerStatistics(playerName, playerUUID);
                 ps.initFromFile(data);
                 return ps;
@@ -125,9 +120,8 @@ public class StatisticManager {
 
     public void writePlayerData(PlayerStatistics playerStatistics) {
         Path dirPath = Paths.get(this.plugin.getDataFolder() +"/");
-        Path filePath = Paths.get(this.plugin.getDataFolder() +"/"+ playerStatistics.getPlayerName() + ".json");
-        //String yaml = playerStatistics.toYaml();
-        String json = playerStatistics.toJson().toString();
+        Path filePath = Paths.get(this.plugin.getDataFolder() +"/"+ playerStatistics.getPlayerName() + ".yml");
+        String yaml = playerStatistics.toYaml();
 
         try {
             if (!Files.exists(dirPath)) {
@@ -138,7 +132,7 @@ public class StatisticManager {
         }
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath.toString()))) {
-            writer.write(json);
+            writer.write(yaml);
             this.plugin.log("Player data written to file.");
         } catch (IOException e) {
             this.plugin.log(e.toString());
